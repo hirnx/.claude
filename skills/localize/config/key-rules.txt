@@ -1,0 +1,26 @@
+# Key Generation Rules
+
+Keys are auto-generated from the English text using these rules:
+
+## Rules
+
+1. Convert to lowercase
+2. Replace spaces with underscores `_`
+3. Remove all special characters except underscores (keep only `a-z`, `0-9`, `_`)
+4. Collapse multiple consecutive underscores into one
+5. Trim leading/trailing underscores
+6. Truncate to 60 characters max (break at last underscore before limit)
+7. If the resulting key is empty, use `untitled_key`
+
+## Examples
+
+| English | Key |
+|---|---|
+| `Collect your rewards!` | `collect_your_rewards` |
+| `You've earned 100 coins` | `youve_earned_100_coins` |
+| `Are you sure?` | `are_you_sure` |
+| `Level Up!!!` | `level_up` |
+
+## Future Rules
+
+Additional rules (prefixes, namespacing, etc.) will be added here as needed.

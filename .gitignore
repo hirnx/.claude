@@ -1,0 +1,66 @@
+# ============================================
+# .claude gitignore
+# Share skills, commands, agents, and config.
+# Ignore credentials, sessions, and caches.
+# ============================================
+
+# --- Credentials & secrets ---
+.credentials.json
+skills/localize/credentials/
+skills/sheet-import/credentials/
+
+# --- User-specific settings ---
+# Contains personal permissions, hooks, env vars
+settings.json
+settings.local.json
+
+# --- Sessions & runtime state ---
+sessions/
+session-env/
+shell-snapshots/
+
+# --- Caches ---
+cache/
+stats-cache.json
+plugins/cache/
+plugins/data/
+plugins/install-counts-cache.json
+
+# --- File history (undo snapshots, per-session) ---
+file-history/
+
+# --- Backups ---
+backups/
+
+# --- Debug logs ---
+debug/
+
+# --- Telemetry & analytics ---
+telemetry/
+statsig/
+
+# --- IDE lock files ---
+ide/
+
+# --- Todos (session-scoped) ---
+todos/
+
+# --- Per-user project memory ---
+# Each dev builds their own memory over time
+projects/
+
+# --- Downloads (installers, binaries) ---
+downloads/
+
+# --- CLI history ---
+history.jsonl
+
+# --- Plans (project-local, not global) ---
+plans/
+
+# --- Node modules (if any scripts use npm) ---
+node_modules/
+
+# --- OS files ---
+Thumbs.db
+.DS_Store

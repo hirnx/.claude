@@ -1,0 +1,70 @@
+{
+  "languages": [
+    {
+      "name": "English",
+      "code": "en",
+      "column_header": "English",
+      "translate": false
+    },
+    {
+      "name": "German",
+      "code": "de",
+      "column_header": "German",
+      "translate": true
+    },
+    {
+      "name": "Korean",
+      "code": "ko",
+      "column_header": "Korean",
+      "translate": true
+    },
+    {
+      "name": "Japanese",
+      "code": "ja",
+      "column_header": "Japanese",
+      "translate": true
+    },
+    {
+      "name": "French",
+      "code": "fr",
+      "column_header": "French",
+      "translate": true
+    },
+    {
+      "name": "Spanish (es-ES)",
+      "code": "es",
+      "column_header": "Spanish [es-ES]",
+      "translate": true
+    },
+    {
+      "name": "Portuguese",
+      "code": "pt",
+      "column_header": "Portuguese",
+      "translate": true
+    },
+    {
+      "name": "Russian",
+      "code": "ru",
+      "column_header": "Russian",
+      "translate": true
+    },
+    {
+      "name": "Italian",
+      "code": "it",
+      "column_header": "Italian",
+      "translate": true
+    },
+    {
+      "name": "Chinese (Simplified)",
+      "code": "zh-CN",
+      "column_header": "Chinese (Simplified)",
+      "translate": true
+    },
+    {
+      "name": "Chinese (Traditional)",
+      "code": "zh-TW",
+      "column_header": "Chinese (Traditional)",
+      "translate": true
+    }
+  ]
+}
