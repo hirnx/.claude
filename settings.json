@@ -1,0 +1,40 @@
+{
+  "permissions": {
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq -r '.prompt // \"\"' | grep -qiE \"(CS[0-9]{4}|error CS[0-9]|NullReferenceException|MissingReferenceException|UnassignedReferenceException|IndexOutOfRangeException|StackOverflowException|Assets/.*\\.cs\\([0-9]|compiler error|build error|unity error|unity console|fix.*error|error.*fix)\" && jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":.}}' < \"/c/Users/Hiren/.claude/skills/error-fix/SKILL.md\" || echo \"{}\"",
+            "statusMessage": "Detecting Unity errors..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":.}}' < \"/c/Users/Hiren/.claude/skills/routing/SKILL.md\"",
+            "statusMessage": "Loading skill routing..."
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": false
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    }
+  },
+  "skipDangerousModePermissionPrompt": true
+}

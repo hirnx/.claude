@@ -11,8 +11,8 @@ skills/sheet-import/credentials/
 
 # --- User-specific settings ---
 # Contains personal permissions, hooks, env vars
-settings.json
-settings.local.json
+# settings.json
+# settings.local.json
 
 # --- Sessions & runtime state ---
 sessions/
