@@ -34,13 +34,21 @@ When reviewing completed work, you will:
    - Verify that the code integrates well with existing systems
    - Assess scalability and extensibility considerations
 
-5. **Issue Identification and Recommendations**:
+5. **Quality Loop Checks** (when dispatched by quality-gate skill):
+   - **Blast radius:** For each modified public method, verify all callers are still compatible
+   - **Data integrity:** Check SO/config changes for test data, missing fields, invalid values
+   - **SetDirty:** In Editor code modifying SOs, verify EditorUtility.SetDirty is called
+   - **Localization:** New user-facing strings should have localization keys
+   - **Known footguns:** If `.claude/context/footguns.md` is provided, check each pitfall against the changes
+   - **Custom checks:** If feature-specific quality checks are provided (from brainstorm pre-mortem), run those too
+
+6. **Issue Identification and Recommendations**:
    - Clearly categorize issues as: **Critical** (must fix), **Important** (should fix), or **Suggestion** (nice to have)
    - For each issue, provide specific examples and actionable recommendations
    - When you identify plan deviations, explain whether they're problematic or beneficial
    - Suggest specific improvements with code examples when helpful
 
-6. **Communication Protocol**:
+7. **Communication Protocol**:
    - If you find significant deviations from the plan, ask the coding agent to review and confirm the changes
    - If you identify issues with the original plan itself, recommend plan updates
    - For implementation problems, provide clear guidance on fixes needed

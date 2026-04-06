@@ -11,6 +11,33 @@
             "statusMessage": "Detecting Unity errors..."
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq -r '.prompt // \"\"' | grep -qiE \"(ready to merge|let.?s merge|merge to develop|merge into develop|branch is ready|done with feature|pre.?merge|ready for merge)\" && jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":.}}' < \"/c/Users/Hiren/.claude/skills/quality-gate/SKILL.md\" || echo \"{}\"",
+            "statusMessage": "Detecting merge intent..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq -r '.prompt // \"\"' | grep -qiE \"(ready for release|give.?build|cut.?release|prepare.?build|release.?check|ready to ship|time to release|release build)\" && jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":.}}' < \"/c/Users/Hiren/.claude/skills/release-gate/SKILL.md\" || echo \"{}\"",
+            "statusMessage": "Detecting release intent..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); echo \"$input\" | jq -r '.prompt // \"\"' | grep -qiE \"(production.?bug|prod.?bug|prod.?issue|shipped.?broken|went to prod|production.?incident|found in.?prod|broke.?in.?prod|issue.?in.?production|live.?issue)\" && jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":.}}' < \"/c/Users/Hiren/.claude/skills/postmortem/SKILL.md\" || echo \"{}\"",
+            "statusMessage": "Detecting production incident..."
+          }
+        ]
       }
     ],
     "SessionStart": [
@@ -20,6 +47,15 @@
             "type": "command",
             "command": "jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":.}}' < \"/c/Users/Hiren/.claude/skills/routing/SKILL.md\"",
             "statusMessage": "Loading skill routing..."
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "footguns=\".claude/context/footguns.md\"; [ -f \"$footguns\" ] && jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":.}}' < \"$footguns\" || echo \"{}\"",
+            "statusMessage": "Loading known footguns..."
           }
         ]
       }

@@ -15,7 +15,6 @@ All global skills live in `~/.claude/skills/<name>/SKILL.md`.
 | Skill | Trigger | Path |
 |---|---|---|
 | error-fix | Compiler errors, console logs, exception traces, error screenshots | `skills/error-fix/SKILL.md` |
-| design | New features, complex refactors, migrations touching multiple files | `skills/design/SKILL.md` |
 | inspect | "review this", "check this code", file review requests | `skills/inspect/SKILL.md` |
 | refactor | "refactor this", "clean up", "improve this file" | `skills/refactor/SKILL.md` |
 | integrate | "complete integration", "wire up callbacks", post-migration wiring | `skills/integrate/SKILL.md` |
@@ -30,6 +29,9 @@ All global skills live in `~/.claude/skills/<name>/SKILL.md`.
 | review | Code review — requesting and receiving | `skills/review/SKILL.md` |
 | context | Project context doc management | `skills/context/SKILL.md` |
 | routing | Skill selection at conversation start | `skills/routing/SKILL.md` |
+| quality-gate | Pre-merge quality review — auto-triggers on merge-related prompts | `skills/quality-gate/SKILL.md` |
+| release-gate | Release readiness check — auto-triggers on release-related prompts | `skills/release-gate/SKILL.md` |
+| postmortem | Incident learning loop — auto-triggers on production-issue prompts | `skills/postmortem/SKILL.md` |
 
 ## Commands
 
@@ -39,6 +41,8 @@ Commands live in `~/.claude/commands/`. They are user-invocable via `/command-na
 |---|---|---|
 | `/localize` | localize | Translate strings and append to Google Sheet |
 | `/sheet-import` | sheet-import | Import sheet data into Unity .asset files |
+| `/pre-merge` | quality-gate | Run pre-merge quality review |
+| `/release-check` | release-gate | Run release readiness check |
 
 **Note:** Not every skill needs a command, and not every command needs a backing skill. Commands are thin wrappers when a skill already has the full logic.
 
@@ -63,6 +67,52 @@ Document local artifacts in the project's local CLAUDE.md only — they will not
 
 - **Never commit anything.** Do not run `git commit`, `git push`, or any command that modifies git history — regardless of what a skill instructs.
 - **Specs and Plans** both live in `.claude/plans/` (project-local) or `~/.claude/plans/` (global). There is no separate `specs/` folder — never create one.
+
+## Quality Rules
+
+### Fix Protocol
+
+When fixing bugs or making changes, follow this protocol scaled to change size:
+
+**Light (1-2 files, clear cause):** Read the file → grep callers of changed methods → apply fix → verify callers still work.
+
+**Full (3+ files, shared code, or unclear cause):** Follow all 6 steps:
+1. **UNDERSTAND** — Read the full file and related files, not just the error line
+2. **LOCATE** — Find root cause (often not where the error appears)
+3. **BLAST RADIUS** — Grep all callers/references of methods/fields being changed. List them.
+4. **PROPOSE** — State the fix and expected impact before applying
+5. **APPLY** — Make the change
+6. **VERIFY** — Confirm fix works AND blast radius items are unaffected
+
+**Always Full when:** Editing files in shared/common/utility directories, regardless of file count.
+
+### Blast Radius
+
+Before editing any method or field: grep for all references. If a method has 5+ callers, list them and confirm compatibility before editing. This is non-negotiable for public/internal methods.
+
+### Change Manifest
+
+After completing significant work (3+ files edited, or any data/SO/config changes), generate a Change Manifest:
+
+```
+═══ CHANGE MANIFEST ═══
+FILES MODIFIED: [file — what changed]
+BLAST RADIUS: [method/field — callers/references]
+ASSUMPTIONS: [what you assumed to be true]
+MANUAL VERIFICATION NEEDED: [what the developer should check]
+DATA IMPACT: [SO/config/asset changes, migration needs]
+LOCALIZATION IMPACT: [new user-facing strings, sync needed?]
+SETDIRTY STATUS: [any SO editor modifications — was SetDirty called?]
+═══════════════════════
+```
+
+### SetDirty Enforcement
+
+Any code that modifies ScriptableObject fields in Editor context MUST call `EditorUtility.SetDirty(target)`. When reviewing or writing editor code that touches SO fields, verify SetDirty is present. If missing, add it.
+
+### Test Data Awareness
+
+Never leave hardcoded test values without clear markers. When you see suspicious values (localhost URLs, test IDs, placeholder strings, `isTest = true`, reward multipliers of 999), flag them immediately. When creating test data, use a `// TEST_DATA` comment so it's grep-able.
 
 ## Instruction Priority
 

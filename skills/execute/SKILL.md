@@ -28,7 +28,7 @@ Execute implementation plans through the best mode for the situation: work direc
 
 Before starting, check for a handoff file:
 
-1. Look for `.claude/handoffs/plan-to-execute.md`
+1. Look for `.claude/handoffs/plan-to-execute.md` or `.claude/handoffs/brainstorm-to-execute.md`
 2. If found → read it, use the `plan` path, honor `Skip` list, pre-load mode recommendation
 3. If not found → run full process as normal
 
@@ -99,6 +99,30 @@ Load plan, review critically, execute all tasks yourself, report when complete.
 - Verification fails repeatedly
 
 **Ask for clarification rather than guessing.**
+
+### Stage Checkpoints (Multi-File Features)
+
+For plans with 5+ tasks or touching 5+ files, group tasks into logical stages and run a checkpoint after each stage:
+
+**Stage grouping:**
+- Stage 1: Data models, SOs, enums
+- Stage 2: Core logic, managers
+- Stage 3: Integration, wiring
+- Stage 4: UI
+- Stage 5: Polish, edge cases
+
+(Adapt stages to the specific plan. Not every plan has all stages.)
+
+**Checkpoint (after each stage):**
+1. Read all files created/modified in this stage
+2. Check: interfaces clean and minimal?
+3. Check: any duplication with existing code?
+4. Check: callers/consumers of modified methods still compatible?
+5. Check: any assumptions that should be documented?
+
+If checkpoint reveals issues, fix before proceeding to next stage. This is iteration DURING development, not after.
+
+**When to skip checkpoints:** Plans with < 5 tasks or touching < 5 files. Light mode always skips checkpoints.
 
 ---
 
@@ -250,7 +274,7 @@ Light mode still follows plan steps and verifies work. It just removes the selec
 
 ## Chaining
 
-**Reads handoff from:** `.claude/handoffs/plan-to-execute.md`
+**Reads handoff from:** `.claude/handoffs/plan-to-execute.md` or `.claude/handoffs/brainstorm-to-execute.md`
 **Writes handoff to:** `.claude/handoffs/execute-to-review.md`
 **Chains to:** `review`, then all → `verify`
 
@@ -266,6 +290,7 @@ plan: <path to plan doc>
 - **Decisions:** [what was implemented, any deviations from plan, task completion status]
 - **Files touched:** [all files created or modified during execution]
 - **User preferences:** [any preferences expressed during execution]
+- **Change Manifest:** [files changed, blast radius, assumptions made, data impact]
 - **Skip:** review context gathering (already knows what changed and why)
 ```
 

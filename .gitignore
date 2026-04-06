@@ -19,12 +19,12 @@ sessions/
 session-env/
 shell-snapshots/
 
+# --- Plugins (auto-managed by Claude Code) ---
+plugins/
+
 # --- Caches ---
 cache/
 stats-cache.json
-plugins/cache/
-plugins/data/
-plugins/install-counts-cache.json
 
 # --- File history (undo snapshots, per-session) ---
 file-history/

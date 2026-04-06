@@ -21,7 +21,7 @@ User request →
 ├── Runtime bug / unexpected behavior → debug (→ may hand off to error-fix)
 ├── "Review this" / check code → inspect
 ├── "Refactor" / clean up → refactor
-├── "Plan this" / design feature → design (reverse-prompting) or brainstorm (full design)
+├── "Plan this" / design feature → brainstorm (full or light mode based on complexity)
 ├── "Make a skill/command/agent" → forge
 ├── Feature migration wiring → integrate
 ├── Translation / localization → localize
@@ -29,6 +29,9 @@ User request →
 ├── Executing an existing plan → execute (direct, delegate, or dispatch mode)
 ├── About to claim "done" → verify
 ├── Code review → review
+├── "Ready to merge" / done with feature → quality-gate
+├── "Release" / ready for build → release-gate
+├── Production incident / prod bug → postmortem
 └── Context docs need updating → context
 ```
 
@@ -44,6 +47,9 @@ User request →
 - `error-fix` — parallel dispatch protocol must be followed
 - `verify` — evidence before assertions, no shortcuts
 - `brainstorm` — design before implementation, full checklist
+- `quality-gate` — all checks must run, no shortcuts
+- `release-gate` — GO/NO-GO is binary, no "probably fine"
+- `postmortem` — must update at least one prevention layer
 
 **Flexible** (adapt principles to context):
 - `debug` — methodology adapts to the problem
@@ -58,11 +64,16 @@ User request →
 - `plan` creates plan → `execute` implements it
 - Any implementation skill → `verify` before claiming done
 - Any completed work → `review` for quality check
+- Any implementation chain → `quality-gate` before merging to develop
+- `quality-gate` passes → merge → `release-gate` before building
+- Production incident → `postmortem` (updates quality checks for future)
 
 **Don't combine:**
 - `brainstorm` + `execute` (design before implementing)
 - `error-fix` + `refactor` (fix first, refactor separately)
 - `inspect` + `refactor` (review first, then decide to refactor)
+- `quality-gate` + `release-gate` (quality-gate first, then release-gate — sequential gates, not concurrent)
+- `postmortem` + `quality-gate` (postmortem captures and updates checks, quality-gate runs checks — don't mix)
 
 ## Chain Awareness
 
@@ -74,11 +85,14 @@ When a skill completes and suggests a next skill via suggest-and-confirm, routin
 
 **Known chains:**
 ```
-brainstorm → plan → execute → review → verify
-design → plan → execute → review → verify
+brainstorm → plan → execute → review → verify → quality-gate
+brainstorm (light) → execute → review → verify → quality-gate
 debug → error-fix → verify
 debug → verify (direct fix)
 all skills → verify
+quality-gate passes → merge
+release-gate passes → release
+postmortem → updates context docs + quality checks
 ```
 
 Routing should not block a chain transition — it validates and passes context, not gatekeeps.

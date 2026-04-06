@@ -32,7 +32,13 @@ BEFORE claiming any status or expressing satisfaction:
 4. VERIFY: Does output confirm the claim?
    - If NO: State actual status with evidence
    - If YES: State claim WITH evidence
-5. ONLY THEN: Make the claim
+5. MANIFEST: If significant work was done (3+ files changed), check:
+   - Was a Change Manifest generated? If not, generate one now.
+   - Were assumptions documented?
+   - Was blast radius identified?
+   - Was data impact assessed?
+   This is NOT optional for significant changes.
+6. ONLY THEN: Make the claim
 
 Skip any step = lying, not verifying
 ```
@@ -47,6 +53,7 @@ Skip any step = lying, not verifying
 | Agent completed | Check actual file changes | Agent reports "success" |
 | Refactor preserves behavior | Verify no logic changes | "Only moved code" |
 | All files updated | List every changed file | "Updated the relevant files" |
+| Significant changes verified | Change Manifest with blast radius and assumptions | "Changes look correct" without manifest |
 
 ## Red Flags - STOP
 
@@ -103,6 +110,32 @@ Before starting, check for a handoff file:
 | User preferences | Context about deviations or constraints |
 
 After consuming the handoff, delete the handoff file.
+
+---
+
+## Post-Verification: Quality Gate Suggestion
+
+After verification passes, if the work represents a complete feature branch ready for merge:
+
+1. Write a handoff file:
+
+```markdown
+---
+from: verify
+to: quality-gate
+---
+
+- **Decisions:** [what was verified, verification results]
+- **Files touched:** [files verified during this check]
+- **Change Manifest:** [manifest from step 5 if generated, or "none"]
+- **Skip:** quality-gate handoff gathering (context already captured)
+```
+
+2. Suggest quality gate:
+
+> "Verification passed. This looks ready for merge. Run quality gate? (/pre-merge)"
+
+This is a suggestion, not a requirement. The user decides. If the user declines, delete the handoff file.
 
 ---
 
