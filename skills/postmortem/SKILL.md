@@ -59,15 +59,15 @@ Based on the gap classification, update the appropriate layer:
 - Describe what the hook should detect and when
 - User approves, then add to settings.json
 
-**If Quality Gate gap → update context/quality-checks.md:**
+**If Quality Gate gap → update ~/.claude/context/quality-checks.md:**
 - Add a new check item with: what to check, how to check, severity (BLOCKER/WARNING)
 - The quality-gate skill reads this file and includes these checks
 
-**If Release Gate gap → update context/quality-checks.md:**
+**If Release Gate gap → update ~/.claude/context/quality-checks.md:**
 - Add a release-specific check item
 - The release-gate skill reads this file for additional checks
 
-**If Learning gap → update context/footguns.md:**
+**If Learning gap → update ~/.claude/context/footguns.md:**
 - Add the footgun: what it is, why it's dangerous, how to avoid it
 
 ### Step 4: Verify Updates
@@ -79,7 +79,7 @@ Read each file that was updated. Confirm:
 
 ### Step 5: Document the Incident
 
-Append a brief incident record to `.claude/context/incidents.md` (create if doesn't exist):
+Append a brief incident record to `~/.claude/context/incidents.md` (create if doesn't exist):
 
 ```markdown
 ### [Date] — [One-line summary]

@@ -39,7 +39,7 @@ When reviewing completed work, you will:
    - **Data integrity:** Check SO/config changes for test data, missing fields, invalid values
    - **SetDirty:** In Editor code modifying SOs, verify EditorUtility.SetDirty is called
    - **Localization:** New user-facing strings should have localization keys
-   - **Known footguns:** If `.claude/context/footguns.md` is provided, check each pitfall against the changes
+   - **Known footguns:** If `~/.claude/context/footguns.md` is provided, check each pitfall against the changes
    - **Custom checks:** If feature-specific quality checks are provided (from brainstorm pre-mortem), run those too
 
 6. **Issue Identification and Recommendations**:

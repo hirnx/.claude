@@ -1,0 +1,1 @@
+Invoke the `merge-assist` skill with the user's input: $ARGUMENTS

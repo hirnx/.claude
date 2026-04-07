@@ -26,7 +26,7 @@ You MUST create a task for each of these items and complete them in order:
 3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
 4. **Propose 2-3 approaches** — with trade-offs and your recommendation
 5. **Pre-mortem assessment** — Before presenting the design, evaluate risks:
-   - Read `.claude/context/footguns.md` (if exists) — do any known pitfalls apply?
+   - Read `~/.claude/context/footguns.md` (if exists) — do any known pitfalls apply?
    - What existing systems does this design touch? (blast radius preview)
    - What could go wrong? What are we assuming?
    - What data/SO/config changes are needed? Any migration risks?

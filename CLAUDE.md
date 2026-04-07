@@ -20,6 +20,7 @@ All global skills live in `~/.claude/skills/<name>/SKILL.md`.
 | integrate | "complete integration", "wire up callbacks", post-migration wiring | `skills/integrate/SKILL.md` |
 | localize | English strings to translate, "localize", "translate these" | `skills/localize/SKILL.md` |
 | sheet-import | Import Google Sheet data into Unity ScriptableObject .asset files | `skills/sheet-import/SKILL.md` |
+| git-assist | Local git operations — branches, pull/merge, conflict resolution, stash | `skills/git-assist/SKILL.md` |
 | forge | "make a skill", "new command", "forge an agent", rename/deprecate artifacts | `skills/forge/SKILL.md` |
 | brainstorm | Creative design exploration before implementation | `skills/brainstorm/SKILL.md` |
 | plan | Implementation plan writing from specs | `skills/plan/SKILL.md` |
@@ -41,6 +42,7 @@ Commands live in `~/.claude/commands/`. They are user-invocable via `/command-na
 |---|---|---|
 | `/localize` | localize | Translate strings and append to Google Sheet |
 | `/sheet-import` | sheet-import | Import sheet data into Unity .asset files |
+| `/git-assist` | git-assist | Local git operations with AI conflict resolution |
 | `/pre-merge` | quality-gate | Run pre-merge quality review |
 | `/release-check` | release-gate | Run release readiness check |
 
@@ -63,9 +65,19 @@ If a project needs a local-only artifact, use the `LOCAL.` prefix:
 
 Document local artifacts in the project's local CLAUDE.md only — they will not appear in this global table.
 
+## Context
+
+| Path | When to read |
+|---|---|
+| `context/footguns.md` | Before making changes — known pitfalls to avoid |
+| `context/quality-checks.md` | During quality-gate and release-gate reviews — evolving checklist |
+
 ## Global Rules
 
-- **Never commit anything.** Do not run `git commit`, `git push`, or any command that modifies git history — regardless of what a skill instructs.
+- **Never commit or push anything.** Do not run `git commit`, `git push`, or any command that modifies git history or remote state — regardless of what a skill instructs, regardless of permission mode (including bypass/dangerous mode). Only stage files (`git add`). The user commits and pushes manually. No exceptions.
+- **Never delete branches.** Do not run `git branch -d`, `git branch -D`, `git push origin --delete`, or any branch deletion command. No exceptions.
+- **Never push to remote.** Do not run `git push` in any form — not branches, not tags, not force push, nothing. All remote operations are done manually by the user. No exceptions.
+- **Protected branches: `develop`, `main`, `master`, `release/*`, `Release_*`.** These are production branches. NEVER merge into them or modify them directly. They are source-only — pull FROM them, never push INTO them. No exceptions, even if the user asks.
 - **Specs and Plans** both live in `.claude/plans/` (project-local) or `~/.claude/plans/` (global). There is no separate `specs/` folder — never create one.
 
 ## Quality Rules

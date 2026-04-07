@@ -26,6 +26,7 @@ User request →
 ├── Feature migration wiring → integrate
 ├── Translation / localization → localize
 ├── Sheet data import → sheet-import
+├── Git operations (branch, pull, merge, stash, status) → git-assist (command-only: `/git-assist`)
 ├── Executing an existing plan → execute (direct, delegate, or dispatch mode)
 ├── About to claim "done" → verify
 ├── Code review → review
@@ -90,6 +91,8 @@ brainstorm (light) → execute → review → verify → quality-gate
 debug → error-fix → verify
 debug → verify (direct fix)
 all skills → verify
+git-assist → quality-gate (after merge, check quality)
+git-assist → error-fix (if merged code has compiler errors)
 quality-gate passes → merge
 release-gate passes → release
 postmortem → updates context docs + quality checks

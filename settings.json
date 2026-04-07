@@ -54,7 +54,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "footguns=\".claude/context/footguns.md\"; [ -f \"$footguns\" ] && jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":.}}' < \"$footguns\" || echo \"{}\"",
+            "command": "footguns=\"/c/Users/Hiren/.claude/context/footguns.md\"; [ -f \"$footguns\" ] && jq -Rs '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":.}}' < \"$footguns\" || echo \"{}\"",
             "statusMessage": "Loading known footguns..."
           }
         ]

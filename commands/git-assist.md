@@ -1,0 +1,1 @@
+Invoke the `git-assist` skill with the user's input: $ARGUMENTS

@@ -68,7 +68,7 @@ If the diff is too large, focus on `.cs` files first, then data/config files.
 
 Run these checks against the diff. Categorize findings as BLOCKER, WARNING, or INFO.
 
-Also read `.claude/context/quality-checks.md` (if exists) for additional project-specific checks added by the postmortem skill.
+Also read `~/.claude/context/quality-checks.md` (if exists) for additional checks added by the postmortem skill.
 
 **BLOCKER (must fix before merge):**
 
@@ -105,8 +105,8 @@ Dispatch the `code-reviewer` agent with the enhanced checklist. Provide:
 - Full diff (or summary if too large)
 - List of automated check results from Step 2
 - Any change manifest from the implementation session (if available)
-- Known footguns from `.claude/context/footguns.md` (if exists)
-- Quality checks from `.claude/context/quality-checks.md` (if exists)
+- Known footguns from `~/.claude/context/footguns.md` (if exists)
+- Quality checks from `~/.claude/context/quality-checks.md` (if exists)
 
 The code-reviewer should specifically check:
 1. **Blast radius** — are all callers of changed methods still compatible?
