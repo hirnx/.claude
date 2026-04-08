@@ -71,8 +71,8 @@ Document local artifacts in the project's local CLAUDE.md only — they will not
 |---|---|
 | `context/footguns.md` | Before making changes — known pitfalls to avoid |
 | `context/quality-checks.md` | During quality-gate and release-gate reviews — evolving checklist |
-| `context/workflow-tree.md` | Visual map of all skills, commands, agents, and workflow phases |
-| `context/workflow-flowchart.md` | Full workflow flowchart — routing, work phases, toolkit, quality loop, context management |
+| `workflow/workflow-tree.md` | Visual map of all skills, commands, agents, and workflow phases |
+| `workflow/workflow-flowchart.md` | Full workflow flowchart — routing, work phases, toolkit, quality loop, context management |
 
 ## Global Rules
 
