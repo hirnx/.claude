@@ -33,6 +33,7 @@ All global skills live in `~/.claude/skills/<name>/SKILL.md`.
 | quality-gate | Pre-merge quality review — auto-triggers on merge-related prompts | `skills/quality-gate/SKILL.md` |
 | release-gate | Release readiness check — auto-triggers on release-related prompts | `skills/release-gate/SKILL.md` |
 | postmortem | Incident learning loop — auto-triggers on production-issue prompts | `skills/postmortem/SKILL.md` |
+| grill-me | "grill me", stress-test a plan/design, challenge decisions | `skills/grill-me/SKILL.md` |
 
 ## Commands
 
