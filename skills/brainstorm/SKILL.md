@@ -23,7 +23,7 @@ You MUST create a task for each of these items and complete them in order:
 
 1. **Explore project context** — check files, docs, recent commits
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
-3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
+3. **Interview thoroughly** — walk every branch of the design decision tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer. If a question can be answered by exploring the codebase, explore instead of asking.
 4. **Propose 2-3 approaches** — with trade-offs and your recommendation
 5. **Pre-mortem assessment** — Before presenting the design, evaluate risks:
    - Read `~/.claude/context/footguns.md` (if exists) — do any known pitfalls apply?
@@ -47,7 +47,7 @@ digraph brainstorming {
     "Explore project context" [shape=box];
     "Visual questions ahead?" [shape=diamond];
     "Offer Visual Companion\n(own message, no other content)" [shape=box];
-    "Ask clarifying questions" [shape=box];
+    "Interview thoroughly\n(walk decision tree, recommend answers)" [shape=box];
     "Propose 2-3 approaches" [shape=box];
     "Pre-mortem assessment\n(footguns, risks, blast radius)" [shape=box];
     "Present design sections" [shape=box];
@@ -62,9 +62,9 @@ digraph brainstorming {
 
     "Explore project context" -> "Visual questions ahead?";
     "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
-    "Visual questions ahead?" -> "Ask clarifying questions" [label="no"];
-    "Offer Visual Companion\n(own message, no other content)" -> "Ask clarifying questions";
-    "Ask clarifying questions" -> "Propose 2-3 approaches";
+    "Visual questions ahead?" -> "Interview thoroughly\n(walk decision tree, recommend answers)" [label="no"];
+    "Offer Visual Companion\n(own message, no other content)" -> "Interview thoroughly\n(walk decision tree, recommend answers)";
+    "Interview thoroughly\n(walk decision tree, recommend answers)" -> "Propose 2-3 approaches";
     "Propose 2-3 approaches" -> "Pre-mortem assessment\n(footguns, risks, blast radius)";
     "Pre-mortem assessment\n(footguns, risks, blast radius)" -> "Present design sections";
     "Present design sections" -> "User approves design?";
@@ -90,21 +90,28 @@ digraph brainstorming {
 - Check out the current project state first (files, docs, recent commits)
 - Before asking detailed questions, assess scope: if the request describes multiple independent subsystems, flag this immediately. Don't spend questions refining details of a project that needs to be decomposed first.
 - If the project is too large for a single spec, help the user decompose into sub-projects. Each sub-project gets its own spec → plan → implementation cycle.
-- For appropriately-scoped projects, ask questions one at a time to refine the idea
-- Prefer multiple choice questions when possible, but open-ended is fine too
+- **Interview thoroughly:** Walk every branch of the design decision tree. Don't settle for surface-level answers — resolve each decision and its downstream dependencies before moving on.
+- For each question, **provide your recommended answer** based on codebase exploration and domain knowledge. The user confirms, overrides, or refines.
+- **Explore before asking:** If a question can be answered by reading the codebase (existing patterns, data structures, conventions), explore it yourself instead of asking the user. State what you found and your conclusion.
 - Only one question per message
-- Focus on understanding: purpose, constraints, success criteria
+- Prefer multiple choice questions when possible, but open-ended is fine too
+- Don't stop questioning until every branch of the decision tree is resolved. Shared understanding is the goal — not speed.
 
 **Questioning style:**
 
 - **Short questions.** 1-2 sentences. No preamble, no restating what the user said.
+- **Always include your recommended answer.** State what you'd pick and why in one line, then ask if the user agrees or wants something different.
+  ```
+  ✅ "Event lifecycle: I'd go event-driven over polling — less coupling, fits the existing Observer pattern in GameManager. Sound right, or do you have a reason to prefer polling?"
+  ❌ "How should we handle the event lifecycle?"
+  ```
 - **Short options.** Label + brief phrase, not a paragraph per option.
   ```
   ✅ A) Event-driven  B) Polling  C) Hybrid — I'd lean A because [one reason]
   ❌ "Option A would be an event-driven approach where we create a system that listens for..."
   ```
-- **Lead with recommendation** in one line, not a paragraph of reasoning.
-- **Skip the question** if you can infer the answer from context — state your assumption and move on.
+- **Resolve before moving on.** Each decision may unlock or constrain downstream decisions. Identify these dependencies and resolve them in order. Don't leave open threads.
+- **Skip the question** if you can answer it by exploring the codebase — state what you found and your conclusion. Only ask the user when the answer genuinely requires their judgment or preference.
 
 **Exploring approaches:**
 
@@ -235,7 +242,7 @@ Wait for user response. If yes → invoke `execute`. If no → conversation cont
 When routing classifies the task as **light** (see routing skill's Complexity Classification), collapse the process:
 
 1. **Skip** visual companion offer
-2. **0-1 clarifying questions** — only if genuinely ambiguous. If intent is clear, skip questions entirely.
+2. **Focused interview (0-3 questions)** — explore the codebase to answer what you can, only ask the user about genuinely ambiguous decisions. Still provide recommended answers.
 3. **Skip** "propose 2-3 approaches" — go with the obvious approach
 4. **Present design as a short paragraph** — not per-section with approval gates
 5. **Skip** spec self-review and user-reviews-spec gate
@@ -248,7 +255,7 @@ The HARD-GATE still applies: present the design (even if short) and get approval
 **Light mode checklist (replaces the full checklist above):**
 
 1. Quick context check (skim relevant files)
-2. 0-1 clarifying questions
+2. Focused interview (0-3 questions, recommend answers, explore codebase first)
 3. Present short design paragraph, get approval
 4. Write compact plan (if non-trivial)
 5. Transition to execute or direct implementation
